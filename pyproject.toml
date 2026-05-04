@@ -1,0 +1,151 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai4epi"
+version = "0.1.0"
+description = "AI4Science-oriented framework for epidemic surveillance, interpretable forecasting, and surveillance report generation."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "All rights reserved; source-available for academic review and reproducibility inspection only" }
+authors = [
+  { name = "Mark Lazutov" }
+]
+keywords = [
+  "epidemiology",
+  "forecasting",
+  "influenza",
+  "ai4science",
+  "public-health",
+  "conformal-prediction",
+  "shap",
+  "surveillance-report-generation"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Healthcare Industry",
+  "License :: Other/Proprietary License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Typing :: Typed"
+]
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "pydantic>=2.6",
+  "requests>=2.31",
+  "scikit-learn>=1.4",
+  "shap>=0.44",
+  "matplotlib>=3.8",
+  "reportlab>=4.0",
+  "PyYAML>=6.0",
+  "openpyxl>=3.1",
+  "pyarrow>=14.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+  "ruff>=0.4",
+  "mypy>=1.9",
+  "types-requests>=2.31",
+  "pandas-stubs>=2.1"
+]
+test = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0"
+]
+notebook = [
+  "ipykernel>=6.29",
+  "jupyterlab>=4.1",
+  "nbformat>=5.10"
+]
+
+[project.urls]
+Homepage = "https://github.com/ai4epi/ai4epi"
+Repository = "https://github.com/ai4epi/ai4epi"
+Issues = "https://github.com/ai4epi/ai4epi/issues"
+
+[project.scripts]
+ai4epi = "ai4epi.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["ai4epi*"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
+  "I",
+  "UP",
+  "B",
+  "C4",
+  "SIM",
+  "ARG",
+  "PTH",
+  "RUF"
+]
+ignore = [
+  "E501",
+  "RUF001",
+  "RUF002",
+  "RUF003"
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["ai4epi"]
+combine-as-imports = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra --strict-markers --strict-config"
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = [
+  "error",
+  "ignore::DeprecationWarning:shap.*",
+  "ignore::DeprecationWarning:numba.*"
+]
+
+[tool.mypy]
+python_version = "3.11"
+plugins = ["pydantic.mypy"]
+mypy_path = "src"
+packages = ["ai4epi"]
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+no_implicit_optional = true
+check_untyped_defs = true
+disallow_incomplete_defs = true
+ignore_missing_imports = true
+
+[tool.coverage.run]
+branch = true
+source = ["ai4epi"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError"
+]
